@@ -1,0 +1,33 @@
+pool:
+  vmImage: ubuntu-20.04
+steps:
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  displayName: 'Use Terraform 0.12.29'
+  inputs:
+    terraformVersion: 0.12.29
+
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  displayName: 'terraform init'
+  inputs:
+    command: init
+    backendType: azurerm
+    backendServiceArm: 'AME PM'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'azSat-shared'
+    backendAzureRmResourceGroupLocation: westus2
+    backendAzureRmStorageAccountName: azsatdemo
+    backendAzureRmStorageAccountSku: 'Standard_LRS'
+    backendAzureRmContainerName: tfbackend
+    backendAzureRmKey: demo.terraform.tfstate
+
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  displayName: 'terraform plan'
+  inputs:
+    command: plan
+    environmentServiceName: 'AME PM'
+
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  displayName: 'terraform apply'
+  inputs:
+    command: apply
+    environmentServiceName: 'AME PM'

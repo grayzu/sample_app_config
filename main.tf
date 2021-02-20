@@ -11,7 +11,7 @@ resource "azurerm_mysql_server" "demo_db" {
   administrator_login          = data.azurerm_key_vault_secret.admin_user.value
   administrator_login_password = data.azurerm_key_vault_secret.admin_pwd.value
 
-  sku_name   = "B_Gen5_2"
+  sku_name   = "B_Gen5_4"
   storage_mb = 5120
   version    = "5.7"
 
